@@ -19,13 +19,18 @@ public class S2578 {
             }
         }
 
+        // count : 선생님이 번호를 부른 횟수
         int count = 0;
+        // isBingo : 빙고인가 아닌가
         boolean isBingo = false;
+        // isFound : 값을 찾았는가 아닌가
+        boolean isFound = false;
 
         // 사회자가 숫자를 부른다.
         for (int i = 0; i < 5 && !isBingo; i++) {
             String[] line = br.readLine().trim().split(" ");
             for (int j = 0; j < 5 && !isBingo; j++) {
+                isFound = false;
                 count++;
                 // 사회자가 부른 숫자
                 int num = Integer.parseInt(line[j]);
@@ -35,6 +40,7 @@ public class S2578 {
                     for (int c = 0; c < 5; c++) {
                         if (board[r][c] == num) {
                             board[r][c] = 0;
+                            isFound = true;
                             // 한 줄이 되었을 때 lineCount를 1 증가시키는 메서드
                             checkOneLine(r, c);
                             // 빙고인지 확인
@@ -45,6 +51,7 @@ public class S2578 {
                         }
                     }
                     if (isBingo) break;
+                    if (isFound) break;
                 }
             }
         }

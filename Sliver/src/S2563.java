@@ -22,32 +22,26 @@ public class S2563 {
             // b : 색종이의 아래쪽 변과 도화지의 아래쪽 변 사이의 거리
             int b = Integer.parseInt(line[1]);
 
-            // 주어진 영역만큼 색종이의 번호로 바꾸기
+            // 주어진 영역만큼 1로 바꾸기
             for (int x = a; x < a + 10; x++) {
                 for (int y = b; y < b + 10; y++) {
-                    arr[x][y] = n;
+                    arr[x][y] = 1;
                 }
             }
         }
 
-        // 각 번호의 개수를 셀 count 배열
-        int[] count = new int[N + 1];
+        // count : 1의 개수를 센다.
+        int count = 0;
 
         // 개수를 센다.
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr.length; j++) {
-                count[arr[i][j]]++;
+                if (arr[i][j] == 1) count++;
             }
         }
 
-        // 누적합 배열을 만든다.
-        // 인덱스 1번부터의 누적합 배열을 만든다.
-        for (int i = 2; i < count.length; i++) {
-            count[i] += count[i - 1];
-        }
 
-        // 누적합 배열의 마지막 인덱스가 영역의 넓이
-        sb.append(count[count.length - 1]);
+        sb.append(count);
         bw.write(sb.toString());
         bw.close();
     }

@@ -1,6 +1,6 @@
 import java.io.*;
 
-// 10163번, 2563번 색종이와 같은 아이디어
+// 2563번 색종이와 같은 아이디어
 public class S2669 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -29,28 +29,24 @@ public class S2669 {
             for (int x = x1; x < x2; x++) {
                 // y1 ~ y2
                 for (int y = y1; y < y2; y++) {
-                    // arr[x][y]를 n(직사각형 번호)으로 바꿔준다
-                    arr[x][y] = n;
+                    // arr[x][y]를 1로 바꿔준다
+                    arr[x][y] = 1;
                 }
             }
         }
 
-        // 각 직사각형의 개수를 구할 배열
-        int[] count = new int[N + 1];
+        // count : 1의 개수를 센다.
+        int count = 0;
 
-        // 번호가 몇 번씩 나왔는지 센다.
+        // 1이 몇 번 나왔는지 센다.
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr.length; j++) {
-                count[arr[i][j]]++;
+                if (arr[i][j] == 1) count++;
             }
         }
 
-        // 인덱스 1번부터 누적합을 구한다.
-        for (int i = 2; i < count.length; i++) {
-            count[i] += count[i - 1];
-        }
-        // 마지막 인덱스의 값: 네 개의 직사각형이 차지하는 면적
-        sb.append(count[count.length - 1]);
+
+        sb.append(count);
         bw.write(sb.toString());
         bw.close();
     }
