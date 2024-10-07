@@ -1,75 +1,57 @@
 import java.io.*;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class Main {
 
-    static int N, p1, p2, M;
-    static int[][] adjArr;
+    static int[][] arr;
     static boolean[] visited;
-    static int ans = 0;
-    static boolean isFound;
+    static int N, B, ans;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringBuilder sb = new StringBuilder(100);
+        StringBuilder sb = new StringBuilder();
+
 
         N = Integer.parseInt(br.readLine().trim());
-        adjArr = new int[N+1][N+1];
+        arr = new int[N+1][N+1];
         visited = new boolean[N+1];
+        String[] s = br.readLine().trim().split(" ");
 
-        String[] line = br.readLine().trim().split(" ");
+        int A = Integer.parseInt(s[0]);
+        B = Integer.parseInt(s[1]);
 
-        p1 = Integer.parseInt(line[0]);
-        p2 = Integer.parseInt(line[1]);
+        int M = Integer.parseInt(br.readLine().trim());
 
-        M = Integer.parseInt(br.readLine().trim());
-
-        for (int m = 0; m < M; m++) {
-            String[] lineTwo = br.readLine().trim().split(" ");
-            int to = Integer.parseInt(lineTwo[0]);
-            int from = Integer.parseInt(lineTwo[1]);
-            adjArr[to][from] = adjArr[from][to] = 1;
+        for (int i = 0; i < M; i++) {
+            s = br.readLine().trim().split(" ");
+            int from = Integer.parseInt(s[0]);
+            int to = Integer.parseInt(s[1]);
+            arr[from][to] = arr[to][from] = 1;
         }
 
-        ans = 0;
-        isFound = false;
-        bfs(p1, p2);
-        if (!isFound) sb.append(-1);
-        else sb.append(ans - 1);
+        ans = -1;
 
+        dfs(A, 0);
+
+        sb.append(ans);
         bw.write(sb.toString());
         bw.close();
         br.close();
 
     }
 
-    static void bfs(int start, int end) {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(start);
-        visited[start] = true;
+    static void dfs(int node, int count) {
+        visited[node] = true;
 
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            ans++;
+        if (node == B) {
+            ans = count;
+            return;
+        }
 
-            for (int i = 0; i < size; i++) {
-                int curr = queue.poll();
-
-                if (end == curr) {
-                    isFound = true;
-                    return;
-                }
-
-                for (int j = 1; j <= N; j++) {
-                    if (adjArr[curr][j] == 1 && !visited[j]) {
-                        queue.add(j);
-                        visited[j] = true;
-                    }
-                }
+        for (int i = 1; i <= N; i++) {
+            if (arr[node][i] == 1 && !visited[i]) {
+                dfs(i, count + 1);
             }
-
         }
 
     }
