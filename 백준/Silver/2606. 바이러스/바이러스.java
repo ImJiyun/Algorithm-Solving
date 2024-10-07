@@ -2,51 +2,45 @@ import java.io.*;
 
 public class Main {
 
-    static int N, E;
-    static int[][] adjArr;
+    static int N;
+    static int[][] arr;
     static boolean[] visited;
+    static int ans;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringBuilder sb = new StringBuilder(100);
+        StringBuilder sb = new StringBuilder();
 
         N = Integer.parseInt(br.readLine().trim());
+        int M = Integer.parseInt(br.readLine().trim());
 
-        E = Integer.parseInt(br.readLine().trim());
-
-        adjArr = new int[N+1][N+1];
+        arr = new int[N+1][N+1];
         visited = new boolean[N+1];
+        ans = 0;
 
-        for (int e = 0; e < E; e++) {
-            String[] line = br.readLine().trim().split(" ");
-
-            int to = Integer.parseInt(line[0]);
-            int from = Integer.parseInt(line[1]);
-
-            adjArr[to][from] = adjArr[from][to] = 1;
-
+        for (int i = 0; i < M; i++) {
+            String[] s= br.readLine().trim().split(" ");
+            int a = Integer.parseInt(s[0]);
+            int b = Integer.parseInt(s[1]);
+            arr[a][b] = arr[b][a] = 1;
         }
 
-        int curr = 1;
-        visited[curr] = true;
-        dfs(curr);
+        dfs(1);
 
-        int count = 0;
-
-        for (int i = 1; i <= N; i++) {
-            if (visited[i]) count++;
-        }
-        sb.append(count - 1);
+        sb.append(ans);
         bw.write(sb.toString());
         bw.close();
         br.close();
+
     }
 
-    static void dfs(int curr) {
+    static void dfs(int node) {
+        visited[node] = true;
+
         for (int i = 1; i <= N; i++) {
-            if (!visited[i] && adjArr[curr][i] == 1) {
-                visited[i] = true;
+            if (arr[node][i] == 1 && !visited[i]) {
+                ans++;
                 dfs(i);
             }
         }
